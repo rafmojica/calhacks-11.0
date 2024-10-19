@@ -1,16 +1,47 @@
-import "./App.css";
-import { HomeIcon } from "@radix-ui/react-icons"
+import React, { useEffect } from 'react';
+import {
+  Routes,
+  Route,
+  useLocation
+} from 'react-router-dom';
+
+import 'aos/dist/aos.css';
+import './css/style.css';
+
+import AOS from 'aos';
+
+import Home from './pages/Home';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
+
+  const location = useLocation();
+
+  useEffect(() => {
+    AOS.init({
+      once: true,
+      disable: 'phone',
+      duration: 700,
+      easing: 'ease-out-cubic',
+    });
+  });
+
+  useEffect(() => {
+    document.querySelector('html').style.scrollBehavior = 'auto'
+    window.scroll({ top: 0 })
+    document.querySelector('html').style.scrollBehavior = ''
+  }, [location.pathname]); // triggered on route change
+
   return (
     <>
-      <nav className="w-72 max-w-sm my-0 mt-8 px-8 m-auto">
-        <ul className="flex justify-between">
-          <li className="bg-[#ea580a] border-[#ea580a] text-[#FBFCF8] py-2 px-4 border-2 rounded-xl font-extrabold text-lg hover:cursor-pointer">Home</li>
-          <li className="bg-[#ea580a] border-[#ea580a] text-[#FBFCF8] py-2 px-4 border-2 rounded-xl font-extrabold text-lg hover:cursor-pointer">About</li>
-        </ul>
-      </nav>
-      <h1 className="mt-64 text-center text-4xl">Are we cooking?</h1>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+      </Routes>
     </>
   );
 }

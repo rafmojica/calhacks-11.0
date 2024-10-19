@@ -1,12 +1,29 @@
-import path from "path"
-import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import { defineConfig } from 'vite'
+import postcss from './postcss.config.js'
+import react from '@vitejs/plugin-react'
 
+// https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    'process.env': process.env
+  },
+  css: {
+    postcss,
+  },
   plugins: [react()],
   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
+    alias: [
+      {
+        find: /^~.+/,
+        replacement: (val) => {
+          return val.replace(/^~/, "");
+        },
+      },
+    ],
   },
+  build: {
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    }
+  } 
 })
