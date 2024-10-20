@@ -12,6 +12,12 @@ jobs:
 
       - name: Super-Linter
         uses: super-linter/super-linter@v7.1.0 
+
+      - name: Format code with Prettier
+        uses: prettier/action@v2
+        with:
+          args: --write
+          
         env: 
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
